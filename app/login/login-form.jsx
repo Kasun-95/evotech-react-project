@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { loginUser } from "@/app/libs/apis/server";
 
 // Client component for client side rendering
 export default function LoginForm(props) {
@@ -13,26 +14,28 @@ export default function LoginForm(props) {
     if (!email) {
       setEmailError("Email is required!");
       return false;
-    }  else {
+    } else {
       setEmailError("");
     }
 
     if (!password) {
       setPasswordError("Password is required!");
       return false;
-    } else{
+    } else {
       setPasswordError("");
     }
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = validateForm();
 
-    if(isValid){
+    if (isValid) {
       // Login Form Data Submission
-    console.log("Form Data:", { Email: email, Password: password });
+      // console.log("Form Data:", { Email: email, Password: password });
+      const login = await loginUser({ email: email, password: password });
+      console.log("LOGIN RESPONSE ", login);
     }
   };
   return (
@@ -67,7 +70,9 @@ export default function LoginForm(props) {
               placeholder="Yourname@gmail.com"
             />
 
-            {emailError && <div className="text-red-600 text-sm mt-2 ml-2">{emailError}</div>}
+            {emailError && (
+              <div className="text-red-600 text-sm mt-2 ml-2">{emailError}</div>
+            )}
           </div>
           {/* Password */}
           <div>
@@ -89,8 +94,11 @@ export default function LoginForm(props) {
               placeholder="**********"
             />
 
-            {passwordError && <div className="text-red-600 text-sm mt-2 ml-2">{passwordError}
-            </div>}
+            {passwordError && (
+              <div className="text-red-600 text-sm mt-2 ml-2">
+                {passwordError}
+              </div>
+            )}
           </div>
           {/* Remember me */}
           <div className="flex justify-between">
