@@ -42,7 +42,7 @@ export default function LoginForm(props) {
     <div className="w-[380px] mx-auto bg-green-200">
       <div
         className="bg-white shadow-md border border-gray-500 rounded-lg p-4"
-        style={{ backgroundColor: "#fabb7d" }}
+        style={{ backgroundColor: "white" }}
       >
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* <form action="#" onSubmit={handleSubmit} className="space-y-6"> */}
@@ -65,7 +65,7 @@ export default function LoginForm(props) {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-gray-300 border border-gray-500 rounded-lg text-gray-900 focus:ring-1 focus:ring-offset-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus-visible:border-blue-600"
+              className="bg-gray-300 border border-gray-500 rounded-lg text-gray-900 focus:ring-1 focus:ring-offset-2 block w-full p-2.5"
               // className= "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Yourname@gmail.com"
             />
@@ -89,8 +89,9 @@ export default function LoginForm(props) {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-gray-300 border border-gray-500 rounded-lg text-gray-900 focus:ring-1 focus:ring-offset-2 focus:ring-orange-500 focus:border-blue-500 block w-full p-2.5"
+              // className="bg-gray-300 border border-gray-500 rounded-lg text-gray-900 focus:ring-1 focus:ring-offset-2 focus:ring-orange-500 focus:border-blue-500 block w-full p-2.5"
               // className= "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-300 border border-gray-500 rounded-lg text-gray-900 focus:ring-1 focus:ring-offset-2 block w-full p-2.5"
               placeholder="**********"
             />
 
