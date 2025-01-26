@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
-import { registerUser } from "@/app/libs/apis/server";
+import { registerUser } from "@/lib/apis/server";
 
 const DEFAULT_ERROR = {
   error: false,
