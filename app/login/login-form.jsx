@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { loginUser } from "@/app/libs/apis/server";
+import { loginUser } from "@/lib/apis/server";
 
 // Client component for client side rendering
 export default function LoginForm(props) {
