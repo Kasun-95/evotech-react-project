@@ -1,3 +1,4 @@
+import SidePanel from "./components/side-panel";
 import UserNav from "./components/user-nav";
 
 export default function DashboardLayout({ children }) {
@@ -5,7 +6,7 @@ export default function DashboardLayout({ children }) {
     <div className="flex h-screen overflow-hidden bg-gray-100">
       {/* Side Panel */}
       <aside className="w-64 overflow-y-auto border-r bg-white shadow-lg">
-        Side Panel
+        <SidePanel />
       </aside>
 
       <div className="flex flex-1 flex-col overflow-hidden">
