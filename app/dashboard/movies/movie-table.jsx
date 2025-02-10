@@ -35,7 +35,7 @@ export default function MovieTable({ movies }) {
             <TableHead className="font-bold">Rated</TableHead>
             <TableHead className="font-bold">IMDb</TableHead>
             <TableHead className="font-bold">Genres</TableHead>
-            <TableHead className="font-bold text-end">Actions</TableHead>
+            <TableHead className="font-bold text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -50,7 +50,7 @@ export default function MovieTable({ movies }) {
               <TableCell>
                 <div className="flex justify-end space-x-2">
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     className="min-w-[120px]"
                     onClick={() => handleEdit(movie)}
