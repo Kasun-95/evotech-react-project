@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -22,14 +23,16 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MultiSelect } from "@/components/multi-select";
 import { GENRES, RATINGS } from "@/lib/constants";
-import { Loader2 } from "lucide-react";
 import { createMovie } from "@/lib/actions/movie";
+import { useToast } from "@/hooks/use-toast";
 
-// Client component
+// client component
 export default function AddMovieForm() {
   const [genres, setGenres] = useState([]);
   const [rated, setRated] = useState("");
   const [isLoading, setLoading] = useState("");
+  const { toast } = useToast();
+
   const genresList = GENRES.map((genre) => ({
     label: genre,
     value: genre,
@@ -41,12 +44,26 @@ export default function AddMovieForm() {
     const title = formData.get("title")?.toString();
     const year = Number(formData.get("year"));
     const plot = formData.get("plot")?.toString();
+    const poster = formData.get("poster")?.toString();
 
-    if (title && year && plot && rated) {
-      console.log({ title, year, plot, rated, genres });
+    if (title && year && plot && rated && poster) {
       setLoading(true);
-      await createMovie({ title, year, plot, rated, genres });
+      const resp = await createMovie({
+        title,
+        year,
+        plot,
+        rated,
+        genres,
+        poster,
+      });
       setLoading(false);
+      if (resp.success) {
+        toast({
+          variant: "success",
+          title: "Movie Added!",
+          description: "Movie was added to MFlix database.",
+        });
+      }
     }
   };
 
@@ -54,7 +71,7 @@ export default function AddMovieForm() {
     <Card className="max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle>Add Movie</CardTitle>
-        <CardDescription>Add a movie to the MFlix Database</CardDescription>
+        <CardDescription>Add a movie to the Mflix database.</CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmitForm}>
         <CardContent className="space-y-4">
@@ -109,6 +126,17 @@ export default function AddMovieForm() {
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="poster">Poster URL</Label>
+            <Input
+              id="poster"
+              name="poster"
+              type="text"
+              defaultValue="https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX700_.jpg"
+              placeholder="Enter the poster URL"
+            />
           </div>
         </CardContent>
 

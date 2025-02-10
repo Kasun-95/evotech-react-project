@@ -38,7 +38,7 @@ export default function RegisterForm() {
     const password = formData.get("password") ?? "";
     const confirmPassword = formData.get("confirm-password") ?? "";
 
-    // console.log("Submitted", { name, email, password, confirmPassword });
+    // console.log("Sumbitted!", { name, email, password, confirmPassword });
 
     // Basic frontend validation logic
     // if (name && email && password && confirmPassword) {
@@ -53,17 +53,15 @@ export default function RegisterForm() {
       // } else {
       //   toast({
       //     variant: "success",
-      //     title: "Registration Successful!",
+      //     title: "Registration successful!",
       //     description: "Please continue with login",
       //     action: (
-      //       <ToastAction altText="Login" className="hover:bg-green-700/90">
+      //       <ToastAction altText="Login" className="hover:bg-green-700">
       //         Login
       //       </ToastAction>
       //     ),
       //   });
       // }
-
-      // console.log("RegisterResp", registerResp);
 
       const { data, error } = await signUp.email(
         {
@@ -80,27 +78,29 @@ export default function RegisterForm() {
             console.log("onSuccess", ctx);
           },
           onError: (ctx) => {
-            // console.log("onError", ctx);
             if (ctx) {
               setError({ error: true, message: ctx.error.message });
             }
           },
         }
       );
+
       if (data) {
-        console.log("data ", data);
+        console.log("data", data);
       }
     } else {
-      setError({ error: true, message: "Password doesn't match" });
+      setError({ error: true, message: "Passwords doesn't match" });
     }
     // }
+
     // console.log("Error!", error);
   };
+
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <Card className="bg-blue-50/90 w-[350px] bg-white shadow-md border border-gray-500 rounded-lg p-4">
+      <Card className="bg-blue-50/90 w-[350px]">
         <CardHeader>
-          <CardTitle className="text-center">Create an Account</CardTitle>
+          <CardTitle className="text-center">Create an account</CardTitle>
           <CardDescription className="text-xs text-center">
             Enter your information to get started
           </CardDescription>
@@ -143,7 +143,7 @@ export default function RegisterForm() {
                 />
               </div>
 
-              {/* Form errors */}
+              {/* form errors */}
               <div className="flex justify-center">
                 {error?.error && (
                   <span className="text-red-600 text-xs text-center animate-pulse duration-1000">
@@ -153,7 +153,7 @@ export default function RegisterForm() {
               </div>
 
               <div className="flex justify-center gap-1 text-xs">
-                Already have an Account?{" "}
+                Already have an account?{" "}
                 <Link href="/login" className="text-blue-600 hover:underline">
                   Login
                 </Link>

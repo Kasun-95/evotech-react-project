@@ -3,23 +3,12 @@ import clientPromise from "@/lib/mongodb";
 import bcrypt from "bcrypt";
 
 export const POST = async (req) => {
-  /*
-  Bind Database
-  Find the user in database
-  Check password validity
-  Return the response with the token
-  If password invalid return error response
-  */
-
   try {
     const { name, email, password } = await req.json();
-    // console.log(name, email, password);
 
     if (!name || !email || !password) {
       return NextResponse.json(
-        {
-          error: "Name, Email and Password are required!",
-        },
+        { error: "Name, email, and password are required." },
         { status: 400 }
       );
     }
@@ -27,25 +16,18 @@ export const POST = async (req) => {
     // TODO: You can do the further data validations here
 
     const client = await clientPromise();
-    // sample_mflix is the database name
     const db = client.db("sample_mflix");
 
     const existingUser = await db.collection("users").findOne({ email });
 
-    // console.log("Is existing user", existingUser);
-
     if (existingUser) {
       return NextResponse.json(
-        {
-          error: "User with this email already exists.",
-        },
+        { error: "User with this email already exists." },
         { status: 409 }
       );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // console.log("Hashed Password ", hashedPassword);
 
     const result = await db.collection("users").insertOne({
       name,
@@ -55,7 +37,6 @@ export const POST = async (req) => {
     });
 
     if (result && result.acknowledged) {
-      // console.log("MDB Result ", result);
       return NextResponse.json({
         success: true,
         user: {
