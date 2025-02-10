@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -36,7 +35,7 @@ export default function MovieTable({ movies }) {
             <TableHead className="font-bold">Rated</TableHead>
             <TableHead className="font-bold">IMDb</TableHead>
             <TableHead className="font-bold">Genres</TableHead>
-            <TableHead className="font-bold text-center">Actions</TableHead>
+            <TableHead className="font-bold text-end">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -47,11 +46,11 @@ export default function MovieTable({ movies }) {
               <TableCell>{movie?.year ?? "N/A"}</TableCell>
               <TableCell>{movie?.rated ?? "N/A"}</TableCell>
               <TableCell>{movie?.imdb?.rating ?? "N/A"}</TableCell>
-              <TableCell>{movie?.genres?.join(" , ") ?? "N/A"}</TableCell>
+              <TableCell>{movie?.genres?.join(", ")}</TableCell>
               <TableCell>
                 <div className="flex justify-end space-x-2">
                   <Button
-                    variant="default"
+                    variant="outline"
                     size="sm"
                     className="min-w-[120px]"
                     onClick={() => handleEdit(movie)}

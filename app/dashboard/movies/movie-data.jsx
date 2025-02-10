@@ -2,14 +2,12 @@ import clientPromise from "@/lib/mongodb";
 import MovieTable from "./movie-table";
 
 // Movie data server component
-// Server action call directly to mongodb
+// server action call directly to mongodb
 export default async function MovieData() {
   try {
     const client = await clientPromise();
-    // sample_mflix is the database name
     const db = client.db("sample_mflix");
 
-    // fetch movies from the database
     const moviesQuery = await db
       .collection("movies_n")
       .find({})
@@ -19,7 +17,7 @@ export default async function MovieData() {
 
     if (moviesQuery) {
       // Refine movies query to a array
-      const refineMovies = moviesQuery.map((movie) => ({
+      const refinedMovies = moviesQuery.map((movie) => ({
         id: movie._id.toString(),
         title: movie.title,
         year: movie.year,
@@ -32,10 +30,11 @@ export default async function MovieData() {
 
       // Pass movies refined data to movies table
       // Return MovieTable
-      return <MovieTable movies={refineMovies} />;
+      return <MovieTable movies={refinedMovies} />;
     }
   } catch (error) {
     console.log(error);
+
     return (
       <div className="flex justify-center items-center h-[186.5px]">
         <p className="text-red-700 font-medium animate-pulse duration-1000">

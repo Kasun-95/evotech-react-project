@@ -1,6 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
 import { LayoutDashboard } from "lucide-react";
-// import { SiImdb } from "react-icons/si";
 import { FaStar } from "react-icons/fa";
 import {
   Card,
@@ -11,10 +11,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getMovies } from "@/lib/apis/server";
-import { auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { getMovies } from "@/lib/apis/server";
 
 export default async function MoviesPublicPage() {
   // 1. Add shadcn Card
@@ -24,13 +22,13 @@ export default async function MoviesPublicPage() {
 
   const moviesQuery = await getMovies();
 
-  console.log("MOVIES FE : ", moviesQuery);
+  console.log("MOVIES FE", moviesQuery);
 
   return (
     <div className="container space-y-4 my-12">
       <div className="flex flex-row justify-between items-center">
         <h1 className="text-3xl font-bold">Browse Movies</h1>
-        <Link href={"/dashboard/movies"}>
+        <Link href="/dashboard/movies">
           <Button>
             <LayoutDashboard />
             Go to Dashboard
@@ -40,7 +38,7 @@ export default async function MoviesPublicPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {moviesQuery?.length &&
           moviesQuery.map((movie) => (
-            <div key={movie._id} className="h-[480px]">
+            <div key={movie?._id} className="h-[480px]">
               <Card className="h-full">
                 <CardHeader>
                   <CardTitle>
@@ -75,13 +73,13 @@ export default async function MoviesPublicPage() {
                     </div>
                     <div className="flex flex-row justify-between items-center">
                       <Badge variant="success" className="font-medium">
-                        Rated:{movie?.rated ?? "N/A"}
+                        Rated: {movie?.rated ?? "N/A"}
                       </Badge>
+
                       <div
                         className="flex flex-row gap-1 items-center"
                         title="IMDb Rating"
                       >
-                        {/* <SiImdb className="text-yellow-500 text-2xl" /> */}
                         <FaStar className="text-yellow-500" />
                         <span className="text-sm font-semibold">
                           {movie?.imdb?.rating ?? 0}/10

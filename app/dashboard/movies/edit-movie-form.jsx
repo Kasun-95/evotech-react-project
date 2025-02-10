@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import {
@@ -29,12 +30,17 @@ export default function EditMovieForm({ movie, open, onCancel, isLoading }) {
   const [genres, setGenres] = useState(movie?.genres);
   const [poster, setPoster] = useState(movie?.poster);
   const [rated, setRated] = useState(movie?.rated);
+  const [imdbRating, setIMDbRating] = useState(movie.imdb?.rating ?? 0);
 
   const genresList = GENRES.map((genre) => ({
     label: genre,
     value: genre,
   }));
-  const handleSubmitForm = () => {};
+
+  const handleSubmitForm = () => {
+    //
+  };
+
   return (
     <Dialog open={open} onOpenChange={onCancel}>
       <DialogContent>
@@ -114,6 +120,7 @@ export default function EditMovieForm({ movie, open, onCancel, isLoading }) {
                 placeholder="Enter the poster URL"
               />
             </div>
+
             <div className="w-full flex justify-end space-x-2">
               <Button type="reset" variant="outline">
                 Clear Form
