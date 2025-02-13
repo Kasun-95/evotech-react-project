@@ -45,6 +45,7 @@ export default function AddMovieForm() {
     const year = Number(formData.get("year"));
     const plot = formData.get("plot")?.toString();
     const poster = formData.get("poster")?.toString();
+    const imdb = Number(formData.get("imdb"));
 
     if (title && year && plot && rated && poster) {
       setLoading(true);
@@ -55,12 +56,13 @@ export default function AddMovieForm() {
         rated,
         genres,
         poster,
+        imdb: { rating: imdb },
       });
       setLoading(false);
       if (resp.success) {
         toast({
           variant: "success",
-          title: "Movie Added!",
+          title: "Movie Added Successfully!",
           description: "Movie was added to MFlix database.",
         });
       }
@@ -108,6 +110,7 @@ export default function AddMovieForm() {
             <MultiSelect
               list={genresList}
               placeholder="Select movie genres"
+              selectedItems={genres}
               onValueChange={setGenres}
             />
           </div>
@@ -126,6 +129,18 @@ export default function AddMovieForm() {
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="imdb">IMDb Rating</Label>
+            <Input
+              id="imdb"
+              name="imdb"
+              max="10.0"
+              step="0.1"
+              type="number"
+              placeholder="Enter imdb rating"
+            />
           </div>
 
           <div>
