@@ -1,13 +1,10 @@
-import clientPromise from "@/lib/mongodb";
+import { db } from "@/lib/mongodb";
 import MovieTable from "./movie-table";
 
 // Movie data server component
 // server action call directly to mongodb
 export default async function MovieData() {
   try {
-    const client = await clientPromise();
-    const db = client.db("sample_mflix");
-
     const moviesQuery = await db
       .collection("movies_n")
       .find({})
