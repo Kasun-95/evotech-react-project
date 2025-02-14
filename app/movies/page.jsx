@@ -14,6 +14,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getMovies } from "@/lib/apis/server";
 
+// Next.js will invalidate the cache when a
+// request comes in, at most once every 60 seconds.
+// export const revalidate = 60;
+
+export const dynamic = "force-dynamic";
+
 export default async function MoviesPublicPage() {
   // 1. Add shadcn Card
   // 2. Create Movies GET endpoint
@@ -21,8 +27,6 @@ export default async function MoviesPublicPage() {
   // 4. Render data set in the UI
 
   const moviesQuery = await getMovies();
-
-  console.log("MOVIES FE", moviesQuery);
 
   return (
     <div className="container space-y-4 my-12">
