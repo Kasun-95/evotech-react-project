@@ -22,6 +22,8 @@ export default function MovieTable({ movies }) {
   const [editingMovie, setEditingMovie] = useState(null);
   const [deletingMovie, setDeletingMovie] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const moviesPerPage = 5;
   const router = useRouter();
 
   const handleEdit = (movie) => {
@@ -62,15 +64,22 @@ export default function MovieTable({ movies }) {
     }
   };
 
-  // Filter movies based on the search query
-  const filteredMovies = movies.filter((movie) => {
-    const query = searchQuery.toLowerCase().trim();
-    return (
+  // Filter and paginate movies
+  const query = searchQuery.toLowerCase().trim();
+  const filteredMovies = movies.filter(
+    (movie) =>
       movie.title.toLowerCase().includes(query) ||
       (movie.genres &&
         movie.genres.some((genre) => genre.toLowerCase().includes(query)))
-    );
-  });
+  );
+
+  const indexOfLastMovie = currentPage * moviesPerPage;
+  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+  const currentMovies = filteredMovies.slice(
+    indexOfFirstMovie,
+    indexOfLastMovie
+  );
+  const totalPages = Math.ceil(filteredMovies.length / moviesPerPage);
 
   return (
     <div>
@@ -81,7 +90,7 @@ export default function MovieTable({ movies }) {
           placeholder="Search by title or genre..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="p-2 w-full border rounded-md"
+          className="p-2 w-full border-2 border-gray-700 rounded-md"
         />
       </div>
 
@@ -98,7 +107,7 @@ export default function MovieTable({ movies }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredMovies.map((movie) => (
+          {currentMovies.map((movie) => (
             <TableRow key={movie.id}>
               <TableCell>
                 <Image
@@ -139,6 +148,25 @@ export default function MovieTable({ movies }) {
           ))}
         </TableBody>
       </Table>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-4 space-x-2">
+        <Button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          Previous
+        </Button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <Button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next
+        </Button>
+      </div>
 
       {editingMovie && (
         <EditMovieForm
