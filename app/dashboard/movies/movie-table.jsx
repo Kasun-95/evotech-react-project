@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -20,6 +21,7 @@ export default function MovieTable({ movies }) {
   const [isDeleting, setDeleting] = useState(false);
   const [editingMovie, setEditingMovie] = useState(null);
   const [deletingMovie, setDeletingMovie] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
   const handleEdit = (movie) => {
@@ -27,7 +29,6 @@ export default function MovieTable({ movies }) {
   };
 
   const handleEditSubmit = async (movie) => {
-    // Javascript ES6 Destructuring
     const { id, title, year, plot, rated, genres, poster, imdb } = movie;
     setIsSaving(true);
     const resp = await updateMovie(id, {
@@ -61,8 +62,29 @@ export default function MovieTable({ movies }) {
     }
   };
 
+  // Filter movies based on the search query
+  const filteredMovies = movies.filter((movie) => {
+    const query = searchQuery.toLowerCase().trim();
+    return (
+      movie.title.toLowerCase().includes(query) ||
+      (movie.genres &&
+        movie.genres.some((genre) => genre.toLowerCase().includes(query)))
+    );
+  });
+
   return (
     <div>
+      {/* Search Input */}
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Search by title or genre..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="p-2 w-full border rounded-md"
+        />
+      </div>
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -76,9 +98,18 @@ export default function MovieTable({ movies }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {movies.map((movie) => (
+          {filteredMovies.map((movie) => (
             <TableRow key={movie.id}>
-              <TableCell>Poster URL</TableCell>
+              <TableCell>
+                <Image
+                  src={movie.poster ?? "/images/avatar.jpg"}
+                  alt="Poster"
+                  width={80}
+                  height={160}
+                  className="w-20 h-auto aspect-auto"
+                  priority
+                />
+              </TableCell>
               <TableCell>{movie?.title ?? "N/A"}</TableCell>
               <TableCell>{movie?.year ?? "N/A"}</TableCell>
               <TableCell>{movie?.rated ?? "N/A"}</TableCell>
@@ -108,6 +139,7 @@ export default function MovieTable({ movies }) {
           ))}
         </TableBody>
       </Table>
+
       {editingMovie && (
         <EditMovieForm
           movie={editingMovie}
@@ -117,6 +149,7 @@ export default function MovieTable({ movies }) {
           isLoading={isSaving}
         />
       )}
+
       {deletingMovie && (
         <DeleteMovieDialog
           movie={deletingMovie}
