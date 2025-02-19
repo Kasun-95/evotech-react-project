@@ -37,172 +37,134 @@ export default function RegisterForm() {
     const email = formData.get("email").toString();
     const password = formData.get("password") ?? "";
     const confirmPassword = formData.get("confirm-password") ?? "";
-
-    // console.log("Sumbitted!", { name, email, password, confirmPassword });
-
     // Basic frontend validation logic
     // if (name && email && password && confirmPassword) {
-    if (password === confirmPassword) {
-      setError(DEFAULT_ERROR);
-      // setLoading(true);
-      // const registerResp = await registerUser({ name, email, password });
-      // setLoading(false);
+    try {
+      if (password === confirmPassword) {
+        setError(DEFAULT_ERROR);
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format
+        const nameRegex = /^[a-zA-Z\s]+$/; // Only letters and spaces
+        const passwordValidation = {
+          minLength: 8,
+          uppercase: /[A-Z]/,
+          lowercase: /[a-z]/,
+          number: /[0-9]/,
+          specialCharacter: /[@$!%*?&]/,
+        };
 
-      // if (registerResp?.error) {
-      //   setError({ error: true, message: registerResp.error });
-      // } else {
-      //   toast({
-      //     variant: "success",
-      //     title: "Registration successful!",
-      //     description: "Please continue with login",
-      //     action: (
-      //       <ToastAction altText="Login" className="hover:bg-green-700">
-      //         Login
-      //       </ToastAction>
-      //     ),
-      //   });
-      // }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format
-      const nameRegex = /^[a-zA-Z\s]+$/; // Only letters and spaces
-      const passwordValidation = {
-        minLength: 8,
-        uppercase: /[A-Z]/,
-        lowercase: /[a-z]/,
-        number: /[0-9]/,
-        specialCharacter: /[@$!%*?&]/,
-      };
-
-      // Name Validation
-      if (!name) {
-        setError({ error: true, message: "Name is required." });
-        return;
-      }
-
-      if (!nameRegex.test(name)) {
-        setError({
-          error: true,
-          message: "Name can only contain letters and spaces.",
-        });
-        return;
-      }
-
-      // Email Validation
-      if (!email) {
-        setError({ error: true, message: "Email is required." });
-        return;
-      }
-
-      if (!emailRegex.test(email)) {
-        setError({ error: true, message: "Invalid email format." });
-        return;
-      }
-
-      // Password Validation
-      if (confirmPassword !== null && password !== confirmPassword) {
-        setError({ error: true, message: "Passwords do not match." });
-        return;
-      }
-
-      if (password.length < passwordValidation.minLength) {
-        setError({
-          error: true,
-          message: `Password must be at least ${passwordValidation.minLength} characters long.`,
-        });
-        return;
-      }
-
-      if (!passwordValidation.uppercase.test(password)) {
-        setError({
-          error: true,
-          message: "Password must contain at least one uppercase letter.",
-        });
-        return;
-      }
-
-      if (!passwordValidation.lowercase.test(password)) {
-        setError({
-          error: true,
-          message: "Password must contain at least one lowercase letter.",
-        });
-        return;
-      }
-
-      if (!passwordValidation.number.test(password)) {
-        setError({
-          error: true,
-          message: "Password must contain at least one number.",
-        });
-        return;
-      }
-
-      if (!passwordValidation.specialCharacter.test(password)) {
-        setError({
-          error: true,
-          message:
-            "Password must contain at least one special character (@, $, !, %, *, ?, &).",
-        });
-        return;
-      }
-
-      // If all validations pass
-      console.log("All validations passed");
-      setError(DEFAULT_ERROR);
-      setLoading(true);
-
-      // Send to backend
-      const registerResponse = await registerUser({ name, email, password });
-      setLoading(false);
-      if (registerResponse?.error) {
-        setError({ error: true, message: registerResponse.error });
-      } else {
-        toast({
-          variant: "success",
-          title: "Account created",
-          description: "Your account has been successfully created.",
-          action: (
-            <ToastAction
-              className="bg-green-600 hover:bg-green-600/90"
-              altText="Close"
-            >
-              <Link href={"/login"}>Login</Link>
-            </ToastAction>
-          ),
-        });
-        // Reset the form
-        formElement.reset();
-      }
-
-      const { data, error } = await signUp.email(
-        {
-          email: email,
-          password: password,
-          name: name,
-          image: undefined,
-        },
-        {
-          onRequest: () => {
-            // console.log("onRequest", ctx);
-          },
-          onSuccess: (ctx) => {
-            console.log("onSuccess", ctx);
-          },
-          onError: (ctx) => {
-            if (ctx) {
-              setError({ error: true, message: ctx.error.message });
-            }
-          },
+        setLoading(true);
+        // Name Validation
+        if (!name) {
+          setError({ error: true, message: "Name is required." });
+          return;
         }
-      );
+        if (!nameRegex.test(name)) {
+          setError({
+            error: true,
+            message: "Name can only contain letters and spaces.",
+          });
+          return;
+        }
+        // Email Validation
+        if (!email) {
+          setError({ error: true, message: "Email is required." });
+          return;
+        }
+        if (!emailRegex.test(email)) {
+          setError({ error: true, message: "Invalid email format." });
+          return;
+        }
+        // Password Validation
+        if (confirmPassword !== null && password !== confirmPassword) {
+          setError({ error: true, message: "Passwords do not match." });
+          return;
+        }
+        if (password.length < passwordValidation.minLength) {
+          setError({
+            error: true,
+            message: `Password must be at least ${passwordValidation.minLength} characters long.`,
+          });
+          return;
+        }
+        if (!passwordValidation.uppercase.test(password)) {
+          setError({
+            error: true,
+            message: "Password must contain at least one uppercase letter.",
+          });
+          return;
+        }
 
-      if (data) {
-        console.log("data", data);
+        if (!passwordValidation.lowercase.test(password)) {
+          setError({
+            error: true,
+            message: "Password must contain at least one lowercase letter.",
+          });
+          return;
+        }
+        if (!passwordValidation.number.test(password)) {
+          setError({
+            error: true,
+            message: "Password must contain at least one number.",
+          });
+          return;
+        }
+        if (!passwordValidation.specialCharacter.test(password)) {
+          setError({
+            error: true,
+            message:
+              "Password must contain at least one special character (@, $, !, %, *, ?, &).",
+          });
+          return;
+        }
+        console.log("All validations passed"); // If all validations pass
+
+        const { data, error } = await signUp.email(
+          {
+            email: email,
+            password: password,
+            name: name,
+            image: undefined,
+          },
+          {
+            onRequest: () => {
+              // console.log("onRequest", ctx);
+            },
+            onSuccess: (ctx) => {
+              console.log("onSuccess", ctx);
+              setLoading(false);
+              toast({
+                variant: "success",
+                title: "Account created",
+                description: "Your account has been successfully created.",
+                action: (
+                  <ToastAction
+                    className="bg-green-600 hover:bg-green-600/90"
+                    altText="Close"
+                  >
+                    <Link href={"/login"}>Login</Link>
+                  </ToastAction>
+                ),
+              });
+
+              formElement.reset(); // Reset the form
+            },
+            onError: (ctx) => {
+              if (ctx) {
+                setError({ error: true, message: ctx.error.message });
+              }
+            },
+          }
+        );
+        if (data) {
+          console.log("data", data);
+        }
+      } else {
+        setError({ error: true, message: "Passwords doesn't match" });
       }
-    } else {
-      setError({ error: true, message: "Passwords doesn't match" });
+    } catch (error) {
+      console.log("ERROR:: ", error);
     }
     // }
-
     // console.log("Error!", error);
   };
 
