@@ -66,12 +66,17 @@ export default function MovieTable({ movies }) {
 
   // Filter and paginate movies
   const query = searchQuery.toLowerCase().trim();
-  const filteredMovies = movies.filter(
-    (movie) =>
+
+  const filteredMovies = movies.filter((movie) => {
+    return (
       movie.title.toLowerCase().includes(query) ||
       (movie.genres &&
-        movie.genres.some((genre) => genre.toLowerCase().includes(query)))
-  );
+        movie.genres.some((genre) => genre.toLowerCase().includes(query))) ||
+      (movie.year && movie.year.toString().includes(query)) ||
+      (movie.rated && movie.rated.toLowerCase().includes(query)) ||
+      (movie.imdb && movie.imdb.toString().includes(query))
+    );
+  });
 
   const indexOfLastMovie = currentPage * moviesPerPage;
   const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;

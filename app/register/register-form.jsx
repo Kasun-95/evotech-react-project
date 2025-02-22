@@ -31,7 +31,7 @@ export default function RegisterForm() {
   const { toast } = useToast();
 
   const handleSubmitForm = async (event) => {
-    event?.preventDefault();
+    event.preventDefault();
     const formData = new FormData(event?.currentTarget);
     const name = formData.get("name").toString();
     const email = formData.get("email").toString();
@@ -52,7 +52,7 @@ export default function RegisterForm() {
           specialCharacter: /[@$!%*?&]/,
         };
 
-        setLoading(true);
+        // setLoading(true);
         // Name Validation
         if (!name) {
           setError({ error: true, message: "Name is required." });
@@ -117,7 +117,7 @@ export default function RegisterForm() {
           return;
         }
         console.log("All validations passed"); // If all validations pass
-
+        setLoading(true);
         const { data, error } = await signUp.email(
           {
             email: email,

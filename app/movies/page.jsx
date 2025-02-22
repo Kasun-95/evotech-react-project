@@ -47,7 +47,7 @@ export default async function MoviesPublicPage() {
                 <CardHeader>
                   <CardTitle>
                     {movie?.title}{" "}
-                    <span className="text-xs text-neutral-400 font-normal">
+                    <span className="text-xs text-black font-normal">
                       - {movie?.year ?? "N/A"}
                     </span>
                   </CardTitle>
