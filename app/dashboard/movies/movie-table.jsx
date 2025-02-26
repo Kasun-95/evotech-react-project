@@ -92,7 +92,7 @@ export default function MovieTable({ movies }) {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search by title or genre..."
+          placeholder="Search Here..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="p-2 w-full border-2 border-gray-700 rounded-md"
