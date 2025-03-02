@@ -3,7 +3,8 @@ import MovieTable from "./movie-table";
 
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
-export const revalidate = 60;
+// export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 // Movie data server component
 // server action call directly to mongodb
