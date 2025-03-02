@@ -158,7 +158,7 @@ export default function EditMovieForm({
                 Clear Form
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading && <Loader2 className="animate-spin" />} Add Movie
+                {isLoading && <Loader2 className="animate-spin" />} Update Movie
               </Button>
             </div>
           </div>
