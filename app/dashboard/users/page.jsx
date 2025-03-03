@@ -9,6 +9,7 @@ import {
 import { Shell } from "lucide-react";
 import UserData from "./user-data";
 
+export const dynamic = "force-dynamic";
 export default function UsersPage() {
   return (
     <div className="space-y-4">
