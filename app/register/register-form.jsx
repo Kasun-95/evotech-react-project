@@ -151,6 +151,7 @@ export default function RegisterForm() {
             onError: (ctx) => {
               if (ctx) {
                 setError({ error: true, message: ctx.error.message });
+                setLoading(false);
               }
             },
           }
